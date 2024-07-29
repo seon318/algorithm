@@ -4,14 +4,13 @@ public class Solution {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int t = sc.nextInt();
-		
-		for (int i=1; i<=t; i++) {
-			int result = 0;
-			for (int j=0; j<10; j++) {
-				int num = sc.nextInt();
-				result = Math.max(result, num);
+		for (int x=1; x<t+1; x++) {
+			int max = sc.nextInt();
+			for (int i=0; i<9; i++) {
+				max = Math.max(max, sc.nextInt());
 			}
-			System.out.println("#" + i + " " + result);
+			System.out.println("#"+x+" "+max);
 		}
+
 	}
 }
