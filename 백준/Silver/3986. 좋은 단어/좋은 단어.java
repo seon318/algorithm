@@ -1,26 +1,36 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Stack;
+
+import java.util.*;
 
 public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		sc.nextLine(); 
+		int goodWordCount = 0;
 
-    public static void main(String[] args) throws IOException {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	Stack<Character> stack = new Stack<>();
-    	int ans = 0;
-    	
-    	int n = Integer.parseInt(br.readLine());
-    	for (int t=0; t<n; t++) {
-    		stack.removeAll(stack);
-    		String input = br.readLine();
-    		for (int i=0; i<input.length(); i++) {
-    			char x = input.charAt(i);
-    			if (stack.size() > 0 && stack.peek() == x) stack.pop();
-    			else stack.push(x);
-    		}
-    		if (stack.size() == 0) ans++;
-    	}
-    	System.out.println(ans);
-    }
+		for (int tc = 1; tc <= T; tc++) {
+			String s = sc.nextLine();
+			if (isGoodWord(s)) {
+				goodWordCount++;
+			}
+		}
+		System.out.println(goodWordCount);
+	}
+
+	static boolean isGoodWord(String s) {
+		int LEN = s.length();
+		if(LEN%2!=0) {
+			return false;
+		}
+		Stack<Character> stack = new Stack<>();
+		for(char c : s.toCharArray()) {
+			if(stack.isEmpty()|| stack.peek()!=c) {
+				stack.push(c);
+			}
+			else {
+				stack.pop();
+			}
+		}
+		return stack.isEmpty();
+	}
 }
