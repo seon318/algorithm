@@ -25,7 +25,6 @@ public class Solution {
 
 			max = arr[n - 1];
 			sum = 0;
-
 			for (int i = n - 2; i >= 0; i--) {
 				if (max < arr[i]) max = arr[i];
 				else sum += max - arr[i];
