@@ -1,33 +1,31 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
-
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int[] dwarfs = new int[9];
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int[] height = new int[9];
 		int sum = 0;
-		
+
 		for (int i = 0; i < 9; i++) {
-			dwarfs[i] = Integer.parseInt(br.readLine());
-			sum += dwarfs[i];
+			height[i] = sc.nextInt();
+			sum += height[i];
 		}
-		
-		outer: for (int i = 0; i < 9; i++) {
-			for (int j = i+1; j < 9; j++) {
-				if (sum - dwarfs[i] - dwarfs[j] == 100) {
-					dwarfs[i] = dwarfs[j] = 100;
-					break outer;
+
+		out: for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				if (i != j && height[i] + height[j] == sum - 100) {
+					height[i] = 0;
+					height[j] = 0;
+					break out;
 				}
 			}
+
 		}
-		
-		Arrays.sort(dwarfs);
-		
-		for (int i = 0; i < 7; i++) {
-			System.out.println(dwarfs[i]);
+		Arrays.sort(height);
+		for (int i = 2; i < 9; i++) {
+			System.out.println(height[i]);
 		}
+		sc.close();
 	}
 }
