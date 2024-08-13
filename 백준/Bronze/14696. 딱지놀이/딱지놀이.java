@@ -1,52 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		sc.nextLine();
+		
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		for (int i = 0; i < N; i++) {
+			String s1 = sc.nextLine();
+			String s2 = sc.nextLine();
+			 String[] A = s1.split(" ");
+			 String[] B = s2.split(" ");
 
-		List<Integer> a = new ArrayList<>();
-		List<Integer> b = new ArrayList<>();
-		int num1, num2, idx;
-		int n = Integer.parseInt(br.readLine());
-
-		outer: for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			num1 = Integer.parseInt(st.nextToken());
-			a.clear();
-			for (int j = 0; j < num1; j++) {
-				a.add(Integer.parseInt(st.nextToken()));
-			}
-			Collections.sort(a, Collections.reverseOrder());
-
-			st = new StringTokenizer(br.readLine());
-			num2 = Integer.parseInt(st.nextToken());
-			b.clear();
-			for (int j = 0; j < num2; j++) {
-				b.add(Integer.parseInt(st.nextToken()));
-			}
-			Collections.sort(b, Collections.reverseOrder());
-			for (int k = 0; k < Math.min(num1, num2); k++) {
-				if (a.get(k) > b.get(k)) {
-					System.out.println('A');
-					continue outer;
-				} else if (a.get(k) < b.get(k)) {
-					System.out.println('B');
-					continue outer;
+			for (int j = 4; j >= 1; j--) {
+				int cnt1 = 0;
+				int cnt2 = 0;
+				for (String s :A) {
+					if (Integer.parseInt(s) == j) {
+						cnt1++;
+					}
+				}
+				for (String s : B) {
+					if (Integer.parseInt(s) == j) {
+						cnt2++;
+					}
+				}
+				if (cnt2 > cnt1) {
+					System.out.println("B");
+					break;
+				} else if (cnt2 < cnt1) {
+					System.out.println("A");
+					break;
+				} else {
+					if (j == 1) {
+						System.out.println("D");
+					}
+					continue;
 				}
 			}
 
-			if (num1 > num2) System.out.println('A');
-			else if (num1 == num2) System.out.println('D');
-			else System.out.println('B');
 		}
+		sc.close();
 	}
-
 }
