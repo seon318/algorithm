@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -17,7 +16,7 @@ public class Solution {
 		StringTokenizer st;
 		String command;
 		int n, c, x, y;
-		List<String> password = new LinkedList<>();
+		LinkedList<String> password = new LinkedList<>();
 
 		for (int tc = 1; tc <= 10; tc++) {
 			// 암호문 입력
@@ -30,7 +29,6 @@ public class Solution {
 			st = new StringTokenizer(br.readLine());
 			for (int i = 0; i < c; i++) {
 				command = st.nextToken();
-				
 
 				// 명령어 수행
 				switch (command) {
@@ -60,12 +58,15 @@ public class Solution {
 					break;
 				}
 				}
+
 			}
 
 			// 결과 출력
 			sb = new StringBuilder();
 			sb.append("#" + tc + " ");
-			password.stream().limit(10).forEach(s -> sb.append(s).append(" "));
+			for (int i = 0; i < 10; i++) {
+                sb.append(password.get(i) + " ");
+            }
 			bw.append(sb).append("\n");
 		}
 
