@@ -5,19 +5,17 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
-		sc.nextLine();
-		
-
 		for (int i = 0; i < N; i++) {
+			sc.next();
 			String s1 = sc.nextLine();
+			sc.next();
 			String s2 = sc.nextLine();
-			 String[] A = s1.split(" ");
-			 String[] B = s2.split(" ");
-
+			String[] A = s1.trim().split(" ");
+			String[] B = s2.trim().split(" ");
 			for (int j = 4; j >= 1; j--) {
 				int cnt1 = 0;
 				int cnt2 = 0;
-				for (String s :A) {
+				for (String s : A) {
 					if (Integer.parseInt(s) == j) {
 						cnt1++;
 					}
