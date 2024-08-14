@@ -1,37 +1,41 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int[] arr = new int[n];
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int N = sc.nextInt();
+		int[] arr = new int[N];
+		int length1 = 0;
+		int length2 = 0;
 		int max = 1;
-		int incLen = 1;
-		int decLen = 1;
-
-		for (int i = 0; i < n; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
+		if (N >= 2) {
+			length1 = 1;
+			length2 = 1;
+			max = 2;
+		}
+		for (int i = 0; i < N; i++) {
+			arr[i] = sc.nextInt();
 		}
 
-		for (int i = 1; i < n; i++) {
-			if (arr[i] > arr[i - 1]) {
-				incLen++;
-				decLen = 1;
-			} else if (arr[i] < arr[i - 1]) {
-				decLen++;
-				incLen = 1;
-			} else {
-				incLen++;
-				decLen++;
-			}
+		for (int i = 0; i < N - 1; i++) {
+			if (arr[i] <= arr[i + 1]) {
+				length1++;
+				max = Math.max(length1, max);
 
-			max = Math.max(max, Math.max(incLen, decLen));
+			} else {
+				length1 = 1;
+			}
+		}
+		for (int i = 0; i < N - 1; i++) {
+			if (arr[i] >= arr[i + 1]) {
+				length2++;
+				max = Math.max(length2, max);
+
+			} else {
+				length2 = 1;
+			}
 		}
 		System.out.println(max);
-
+		sc.close();
 	}
 }
