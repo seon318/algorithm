@@ -1,17 +1,23 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String s = br.readLine();
-		int[] alpha = new int[26];
-		for (int i=0; i<s.length(); i++) {
-			alpha[s.charAt(i)-97]++;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String s = sc.nextLine();
+		int[] arr = new int[26];
+		int i = -1;
+		for (char c = 'a'; c <= 'z'; c++) {
+			i++;
+			for (int index = 0; index < s.length(); index++) {
+				if (s.charAt(index) == c) {
+					arr[i]++;
+				}
+			}
 		}
-		for (int i=0; i<26; i++) {
-			System.out.print(alpha[i]+" ");
+		for (int j = 0; j < 25; j++) {
+			System.out.print(arr[j] + " ");
 		}
+		System.out.print(arr[25]);
+		sc.close();
 	}
 }
