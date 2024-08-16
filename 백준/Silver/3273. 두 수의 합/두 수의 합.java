@@ -1,32 +1,30 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
 		int[] arr = new int[n];
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		for (int i=0; i<n; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
+		for (int i = 0; i < n; i++) {
+			arr[i] = sc.nextInt();
 		}
+		int x = sc.nextInt();
+		int cnt = 0;
 		Arrays.sort(arr);
-		int x = Integer.parseInt(br.readLine());
-		int ans = 0;
-		int l = 0;
-		int r = arr.length - 1;
-		
-		while (l < r) {
-			int tmp = arr[l] + arr[r];
-			if (tmp == x) {
-				ans++;
-				l++;
-			} else if (tmp < x) l++;
-			else r--;
+		for (int i = 0; i < n - 1; i++) {
+			if (arr[0] + arr[i] > x) {
+				break;
+			}
+			for (int j = i + 1; j < n; j++) {
+				if (arr[i] + arr[j] == x) {
+					cnt++;
+					break;
+				}
+
+			}
 		}
-		System.out.println(ans);
+		System.out.println(cnt);
+		sc.close();
 	}
 }
