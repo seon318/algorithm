@@ -1,50 +1,46 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();
-		System.out.println("어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.");
-		System.out.println("\"재귀함수가 뭔가요?\"");
-		System.out.println("\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.");
-		System.out.println("마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.");
-		System.out.println("그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"");
-		str1(N);
-		str0(N);
-		System.out.println("\"재귀함수가 뭔가요?\"");
-		str0(N);
-		System.out.println("\"재귀함수는 자기 자신을 호출하는 함수라네\"");
-		str2(N);
+	static int n;
+	static StringBuilder sb = new StringBuilder();
 
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		n = Integer.parseInt(br.readLine());
+		sb.append("어느 한 컴퓨터공학과 학생이 유명한 교수님을 찾아가 물었다.\n");
+		recursion(0);
+		
+		System.out.println(sb);
 	}
 
-	static void str0(int N) {
-		while (N != 0) {
-			System.out.print("____");
-			N--;
+	static void recursion(int cnt) {
+		underline(cnt);
+		sb.append("\"재귀함수가 뭔가요?\"\n");
+		
+		if (cnt == n) {
+			underline(cnt);
+			sb.append("\"재귀함수는 자기 자신을 호출하는 함수라네\"\n");
+			underline(cnt);
+			sb.append("라고 답변하였지.\n");
+			return;
 		}
-	}
+		underline(cnt);
+		sb.append("\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.\n");
+		underline(cnt);
+		sb.append("마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.\n");
+		underline(cnt);
+		sb.append("그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"\n");
+		recursion(cnt + 1);
+		underline(cnt);
+		sb.append("라고 답변하였지.\n");
 
-	static void str1(int N) {
-		int cnt = 0;
-		while (cnt != N-1) {
-			cnt++;
-			str0(cnt);
-			System.out.println("\"재귀함수가 뭔가요?\"");
-			str0(cnt);
-			System.out.println("\"잘 들어보게. 옛날옛날 한 산 꼭대기에 이세상 모든 지식을 통달한 선인이 있었어.");
-			str0(cnt);
-			System.out.println("마을 사람들은 모두 그 선인에게 수많은 질문을 했고, 모두 지혜롭게 대답해 주었지.");
-			str0(cnt);
-			System.out.println("그의 답은 대부분 옳았다고 하네. 그런데 어느 날, 그 선인에게 한 선비가 찾아와서 물었어.\"");
-		}
 	}
-
-	static void str2(int N) {
-		while (N != -1) {
-			str0(N);
-			System.out.println("라고 답변하였지.");
-			N--;
+	
+	static void underline(int cnt) {
+		for (int i = 0; i < cnt; i++) {
+			sb.append("____");
 		}
 	}
 }
