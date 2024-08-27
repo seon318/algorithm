@@ -113,15 +113,19 @@ public class Solution {
 	static void bomb(int x, int y, int k) {
 		arr[x][y] = 0;
 		for (int i = x - k + 1; i < x + k; i++) {
-			if (i >= 0 && i < h) {
+			if (i == h) break;
+			if (i >= 0 && arr[i][y] != 0) {
 				bomb(i, y, arr[i][y]);
 			}
+			
 		}
 		
 		for (int i = y - k + 1; i < y + k; i++) {
-			if (i >= 0 && i < w) {
+			if (i == w) break;
+			if (i >= 0 && arr[x][i] != 0) {
 				bomb(x, i, arr[x][i]);
 			}
+			
 		}
 		
 	}
