@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 public class Solution {
 	static int[] arr = new int[1000000];
-	static int[] tmp = new int[1000000];
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,46 +14,37 @@ public class Solution {
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		mergeSort(0, 999999);
+		quickSort(0, 999999);
 		System.out.println(arr[500000]);
 	}
 	
-	static void mergeSort(int left, int right) {
+	static void quickSort(int left, int right) {
 		if (left < right) {
-			int mid = (left + right) / 2;
-			mergeSort(left, mid);
-			mergeSort(mid + 1, right);
-			merge(left, mid, right);
+			int pivot = partition(left, right);
+			quickSort(left, pivot - 1);
+			quickSort(pivot + 1, right);
 		}
 	}
 	
-	static void merge(int left, int mid, int right) {
-		int L = left;
-		int R = mid + 1;
-		int idx = left;
+	static int partition(int left, int right) {
+		int pivot = arr[left];
+		int L = left + 1;
+		int R = right;
 		
-		while (L <= mid && R <= right) {
-			if (arr[L] <= arr[R]) {
-				tmp[idx++] = arr[L++];
-			} else {
-				tmp[idx++] = arr[R++];
+		while (L <= R) {
+			while (L <= R && arr[L] <= pivot) L++;
+			while (arr[R] > pivot) R--;
+			
+			if (L < R) {
+				int tmp = arr[L];
+				arr[L] = arr[R];
+				arr[R] = tmp;
 			}
 		}
-		
-		if (L <= mid) {
-			for (int i = L; i <= mid; i++) {
-				tmp[idx++] = arr[i];
-			}
-		}
-		
-		else if (R <= right) {
-			for (int i = R; i <= right; i++) {
-				tmp[idx++] = arr[i];
-			}
-		}
-		
-		for (int i = left; i <= right; i++) {
-			arr[i] = tmp[i];
-		}
+		int tmp = arr[left];
+		arr[left] = arr[R];
+		arr[R] = tmp;
+		 
+		return R;
 	}
 }
