@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n, m;
+	static int n, m, cnt, nr, nc;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -35,17 +35,17 @@ public class Main {
 				ans++;
 			}
 			
-			int cnt = 0;
+			cnt = 0;
 			for (int k = 0; k < 4; k++) {
-				int nr = r + dr[k];
-				int nc = c + dc[k];
+				nr = r + dr[k];
+				nc = c + dc[k];
 				if (isValid(nr, nc) && room[nr][nc] == 0) cnt++;
 			}
 			
 			//청소되지 않은 칸 없는 경우
 			if (cnt == 0) {
-				int nr = r + dr[(d + 2) % 4];
-				int nc = c + dc[(d + 2) % 4];
+				nr = r + dr[(d + 2) % 4];
+				nc = c + dc[(d + 2) % 4];
 				if (isValid(nr, nc)) {
 					if (room[nr][nc] == 1) break;
 					r = nr;
@@ -56,8 +56,8 @@ public class Main {
 			} else {
 				while (true) {
 					d = (d + 3) % 4;
-					int nr = r + dr[d];
-					int nc = c + dc[d];
+					nr = r + dr[d];
+					nc = c + dc[d];
 					if (isValid(nr, nc) && room[nr][nc] == 0) {
 						r = nr;
 						c = nc;
