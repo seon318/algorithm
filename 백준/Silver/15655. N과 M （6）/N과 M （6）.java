@@ -6,24 +6,25 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int n, m;
-	static int[] selected, numbers;
+	static int[] sel, num;
 	static StringBuilder sb;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
 		sb = new StringBuilder();
+		
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
 		
-		numbers = new int[n];
-		selected = new int[m];
-		
+		num = new int[n];
 		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < n; i++) {
-			numbers[i] = Integer.parseInt(st.nextToken());
+			num[i] = Integer.parseInt(st.nextToken());			
 		}
-		Arrays.sort(numbers);
+		Arrays.sort(num);
+
+		sel = new int[m];
 		
 		comb(0, 0);
 		System.out.println(sb);
@@ -32,14 +33,14 @@ public class Main {
 	static void comb(int cnt, int idx) {
 		if (cnt == m) {
 			for (int i = 0; i < m; i++) {
-				sb.append(selected[i]).append(" ");
+				sb.append(sel[i]).append(" ");
 			}
 			sb.append("\n");
 			return;
 		}
 		
 		for (int i = idx; i < n; i++) {
-			selected[cnt] = numbers[i];
+			sel[cnt] = num[i];
 			comb(cnt + 1, i + 1);
 		}
 	}
