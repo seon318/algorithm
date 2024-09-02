@@ -55,7 +55,7 @@ public class Solution {
 			int nx = x + dx[d];
 			int ny = y + dy[d];
 
-			if (0 <= nx && nx < n && 0 <= ny && ny < n && !visited[nx][ny]) {
+			if (isValid(nx, ny) && !visited[nx][ny]) {
 				visited[nx][ny] = true;
 				if (ground[nx][ny] >= h && isPossible && h > ground[nx][ny] - k) {
 					dfs(nx, ny, h - 1, len + 1, false, visited);
@@ -65,5 +65,8 @@ public class Solution {
 				visited[nx][ny] = false;
 			}
 		}
+	}
+	static boolean isValid(int x, int y) {
+		return 0 <= x && x < n && 0 <= y && y < n;
 	}
 }
