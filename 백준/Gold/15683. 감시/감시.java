@@ -6,133 +6,105 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int n, m, cnt, ans;
-	static int[][] map, new_matrix;
+	static int n, m, x, y, dir, nx, ny, cnt, ans;
+	static int[][] room, matrix;
 	static List<int[]> cctv = new ArrayList<>();
-	static int[] dx = {1, 0, -1, 0};
+	static int[] cctvDir, item;
+	static int[] dx = {-1, 0, 1, 0};
 	static int[] dy = {0, 1, 0, -1};
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
-		
-		map = new int[n][m];
+		room = new int[n][m];
 		
 		for (int i = 0; i < n; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < m; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-				if  (map[i][j] > 0 && map[i][j] != 6) cctv.add(new int[] {map[i][j], i, j});
+				room[i][j] = Integer.parseInt(st.nextToken());
+				if (room[i][j] > 0 && room[i][j] != 6) {
+					cctv.add(new int[] {room[i][j], i, j});
+				}
 			}
 		}
-
+		
+		cctvDir = new int[cctv.size()];
 		ans = n * m;
-		check(0, map);
+		perm(0);
 		System.out.println(ans);
 	}
 	
-	static void check(int idx, int[][] matrix) {
-		if (idx == cctv.size()) {
-			cnt = 0;
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < m; j++) {
-					if (matrix[i][j] == 0) cnt++;
-				}
+	static void search() {
+		matrix = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				matrix[i][j] = room[i][j];
 			}
-			ans = Math.min(ans, cnt);
+		}
+		
+		for (int i = 0; i < cctv.size(); i++) {
+			item = cctv.get(i);
+			x = item[1];
+			y = item[2];
+			dir = cctvDir[i];
+			
+			check(x, y, dir);
+			switch (item[0]) {
+			case 2 :
+				check(x, y, (dir + 2) % 4);
+				break;
+			case 3 :
+				check(x, y, (dir + 1) % 4);
+				break;
+			case 5 :
+				check(x, y, (dir + 3) % 4);
+			case 4 :
+				check(x, y, (dir + 1) % 4);
+				check(x, y, (dir + 2) % 4);
+				break;
+
+			}
+		}
+		
+		cnt = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (matrix[i][j] == 0) cnt++;
+			}
+		}
+		ans = Math.min(cnt, ans);
+	}
+	
+	static void perm(int cnt) {
+		if (cnt == cctv.size()) {
+			search();
 			return;
 		}
 		
-		int[] item = cctv.get(idx);
+		int repeat = 4;
+		int now = cctv.get(cnt)[0];
+		if (now == 5) repeat = 1;
+		else if (now == 2) repeat = 2;
 		
-		//1번 CCTV
-		if (item[0] == 1) {
-			for (int d = 0; d < 4; d++) {
-				new_matrix = new int[n][m];
-				for (int i = 0; i < n; i++) {
-					for (int j = 0; j < m; j++) {
-						new_matrix[i][j] = matrix[i][j];
-					}
-				}
-				checkDir(item[1], item[2], d);
-				check(idx + 1, new_matrix);
-			}
+		for (int d = 0 ; d < repeat; d++) {
+			cctvDir[cnt] = d;
+			perm(cnt + 1);
 		}
-		
-		//2번 CCTV
-		else if (item[0] == 2) {
-			for (int d = 0; d < 2; d++) {
-				new_matrix = new int[n][m];
-				for (int i = 0; i < n; i++) {
-					for (int j = 0; j < m; j++) {
-						new_matrix[i][j] = matrix[i][j];
-					}
-				}
-				checkDir(item[1], item[2], d);
-				checkDir(item[1], item[2], d + 2);
-				check(idx + 1, new_matrix);
-			}
-		}
-
-		//3번 CCTV
-		else if (item[0] == 3) {
-			for (int d = 0; d < 4; d++) {
-				new_matrix = new int[n][m];
-				for (int i = 0; i < n; i++) {
-					for (int j = 0; j < m; j++) {
-						new_matrix[i][j] = matrix[i][j];
-					}
-				}
-				checkDir(item[1], item[2], d);
-				checkDir(item[1], item[2], (d + 1) % 4);
-				check(idx + 1, new_matrix);
-			}
-		}
-		
-		//4번 CCTV
-		else if (item[0] == 4) {
-			for (int d = 0; d < 4; d++) {
-				new_matrix = new int[n][m];
-				for (int i = 0; i < n; i++) {
-					for (int j = 0; j < m; j++) {
-						new_matrix[i][j] = matrix[i][j];
-					}
-				}
-				checkDir(item[1], item[2], d);
-				checkDir(item[1], item[2], (d + 1) % 4);
-				checkDir(item[1], item[2], (d + 2) % 4);
-				check(idx + 1, new_matrix);
-			}
-		}
-		
-		//5번 CCTV
-		else {
-			new_matrix = new int[n][m];
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < m; j++) {
-					new_matrix[i][j] = matrix[i][j];
-				}
-			}
-			checkDir(item[1], item[2], 0);
-			checkDir(item[1], item[2], 1);
-			checkDir(item[1], item[2], 2);
-			checkDir(item[1], item[2], 3);
-			check(idx + 1, new_matrix);
-		}
-		
 	}
-
-	static void checkDir(int x, int y, int d) {
+	
+	static void check(int x, int y, int dir) {
 		while (true) {
-			x += dx[d];
-			y += dy[d];
-			if (isValid(x, y)) {
-				if (new_matrix[x][y] == 6) break;
-				else if (new_matrix[x][y] == 0) new_matrix[x][y] = -1;
-			} else break;
+			x += dx[dir];
+			y += dy[dir];
+			if (!isValid(x, y)) return;
+			if (matrix[x][y] == 6) return;
+			if (matrix[x][y] == 0) matrix[x][y] = -1;
 		}
+
 	}
 	
 	static boolean isValid(int x, int y) {
