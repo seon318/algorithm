@@ -1,30 +1,51 @@
-def dfs(x, arr, visited):
-    global b, result
-    for i in range(x+1, n):
-        if not visited[i]:
-            visited[i] = True
-            arr.append(height[i])
-            if sum(arr) >= b:
-                result = min(result, sum(arr))
-            else:
-                dfs(i, arr, visited)
-            arr.pop(-1)
-            visited[i] = False
- 
- 
-t = int(input())
-for a in range(1, t+1):
-    n, b = map(int, input().split())
-    height = tuple(map(int, input().split()))
-    visited = [False] * n
-    result = float("inf")
-    for i in range(n):
-        if height[i] >= b:
-            result = min(result, height[i])
-        else:
-            visited[i] = True
-            arr = [height[i]]
-            dfs(i, arr, visited)
-            visited[i] = False
- 
-    print(f"#{a} {result - b}")
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Solution {
+	static int n, b, min, ans;
+	static int[] height;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
+		
+		int t = Integer.parseInt(br.readLine());
+		for (int tc = 1; tc <= t; tc++) {
+			st = new StringTokenizer(br.readLine());
+			n = Integer.parseInt(st.nextToken());
+			b = Integer.parseInt(st.nextToken());
+			
+			height = new int[n];
+			st = new StringTokenizer(br.readLine());
+			for (int i = 0; i < n; i++) {
+				height[i] = Integer.parseInt(st.nextToken());
+			}
+			
+			min = Integer.MAX_VALUE;
+			comb(0, 0, 0);
+			
+			sb.append("#").append(tc).append(" ").append(min - b).append("\n");
+		}
+		System.out.println(sb);
+	}
+	
+	static void comb(int cnt, int idx, int sum) {
+		if (sum >= min) return;
+		
+		if (sum >= b) {
+			min = Math.min(min, sum);
+			return;
+		}
+		
+		if (cnt == n) {
+			return;
+		}
+		
+		for (int i = idx; i < n; i++) {
+			comb(cnt + 1, i + 1, sum + height[i]);
+		}
+	}
+}
