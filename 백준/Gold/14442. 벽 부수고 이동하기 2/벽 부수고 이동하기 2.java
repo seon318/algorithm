@@ -53,14 +53,18 @@ public class Main {
 				ny = y + dy[d];
 				if (!isValid(nx, ny)) continue;
 				//이동할 수 있는 칸
-				if (map[nx][ny] && !visited[nx][ny][depth]) {
-					visited[nx][ny][depth] = true;
-					queue.add(new int[] {nx, ny, depth, dist+1});
+				if (map[nx][ny]) {
+                    if (!visited[nx][ny][depth]) {
+					    visited[nx][ny][depth] = true;
+					    queue.add(new int[] {nx, ny, depth, dist+1});
+                    }
 				}
 				//벽 뚫고 가는 경우
-				else if (!map[nx][ny] && depth < k && !visited[nx][ny][depth+1] ){
-					visited[nx][ny][depth+1] = true;
-					queue.add(new int[] {nx, ny, depth+1, dist+1});
+				else {
+                    if (depth < k && !visited[nx][ny][depth+1]) {
+					    visited[nx][ny][depth+1] = true;
+					    queue.add(new int[] {nx, ny, depth+1, dist+1});
+                    }
 				}
 			}
 		}
