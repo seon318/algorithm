@@ -1,81 +1,81 @@
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-
-	// 8방향: 좌상, 상, 우상, 우, 우하, 하, 좌하, 좌
-	static int[] dx = { -1, -1, -1, 0, 1, 1, 1, 0 };
-	static int[] dy = { -1, 0, 1, 1, 1, 0, -1, -1 };
 	static int N, M, K;
-	static char[][] word;
-	static HashMap<String, Integer> count; // (단어, 등장 횟수) 저장  
+	static char[][] arr;
+	static int[] dr = { -1, -1, -1, 0, 0, 1, 1, 1 };
+	static int[] dc = { -1, 0, 1, -1, 1, -1, 0, 1 };
+	static Map<String, Integer> map = new HashMap<>();
+	static String[] stringArr;
+	static int maxLength;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
-		// 격자 크기 N, M / 신이 좋아하는 문자열 개수 K
+		// 격자 크기 N, M, K 입력
 		N = sc.nextInt();
 		M = sc.nextInt();
 		K = sc.nextInt();
 		sc.nextLine(); // 개행 제거
 
-		// 격자 
-		word = new char[N][M];
+		// 격자
+		arr = new char[N][M];
 		for (int i = 0; i < N; i++) {
-			word[i] = sc.nextLine().toCharArray();
+			arr[i] = sc.nextLine().toCharArray(); // 문자열을 문자 배열로 변환
 		}
 
-		// 찾을 문자열 
-		String[] words = new String[K];
+		// 찾을 문자열 입력 및 최대 길이 계산
+		maxLength = 0;
+		stringArr = new String[K];
 		for (int i = 0; i < K; i++) {
-			words[i] = sc.nextLine();
+			String curString = sc.nextLine();
+			maxLength = Math.max(maxLength, curString.length());
+			map.put(curString, 0); // (찾을 문자열, 카운트) 초기화
+			stringArr[i] = curString;
 		}
 
-		count = new HashMap<>();
-
-		// 각 셀에서 단어 탐색 시작
+		char[] chars = new char[maxLength];
+		// 모든 위치에서 DFS 탐색 시작
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				for (String w : words) { // 각 단어에 대해 탐색
-					searchWord(i, j, w); // 현재 위치에서 단어 찾기
-				}
+				chars[0] = arr[i][j]; // 시작 문자 설정
+				dfs(i, j, 1, chars); // DFS 호출
 			}
 		}
 
 		// 결과 출력
-		for (String w : words) {
-			System.out.println(count.getOrDefault(w, 0));
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < K; i++) {
+			sb.append(map.get(stringArr[i])).append("\n");
 		}
-		
-	} // main 
+		System.out.println(sb);
 
-	// DFS | 시작 위치 x, y & 찾아야 하는 단어 
-	public static void searchWord(int x, int y, String w) {
-		int wordLen = w.length(); // 단어의 길이
+	} // main
 
-		// 8방향 탐색
-		for (int dir = 0; dir < 8; dir++) {
-			int nx = x; 
-			int ny = y; 
-			boolean found = true; // 단어 발견 여부 체크 
+	public static void dfs(int x, int y, int cnt, char[] chars) {
+		StringBuilder sb = new StringBuilder();
 
-			// 단어의 모든 문자에 대해 탐색
-			for (int k = 0; k < wordLen; k++) {
-				// 현재 위치의 문자와 목표 단어의 문자 비교
-				if (word[nx][ny] != w.charAt(k)) {
-					found = false; // 단어를 발견하지 못함
-					break;
-				}
-				// 다음 좌표 계산 (모듈로 연산으로 경계 처리)
-				nx = (nx + dx[dir] + N) % N;
-				ny = (ny + dy[dir] + M) % M;
-			}
-
-			// 단어를 찾았으면 카운트 증가
-			if (found) {
-				count.put(w, count.getOrDefault(w, 0) + 1);
-			}
+		for (int i = 0; i < cnt; i++) {
+			sb.append(chars[i]);
 		}
-		
-	} // searchWord 
+		String curString = sb.toString();
+
+		// 문자열 개수 갱신
+		if (map.containsKey(curString)) {
+			map.put(curString, map.get(curString) + 1);
+		}
+
+		// 최대 길이에 도달하면 종료
+		if (cnt == maxLength) {
+			return;
+		}
+
+		for (int i = 0; i < 8; i++) {
+			int r = (x + dr[i] + N) % N;
+			int c = (y + dc[i] + M) % M;
+			chars[cnt] = arr[r][c];
+			dfs(r, c, cnt + 1, chars);
+		}
+	} // dfs
+
 } // class
