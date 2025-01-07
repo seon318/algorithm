@@ -8,9 +8,9 @@ public class Solution {
         p = P;
         q = Q;
                 
-        long left = 1000000000;
-        long right = 0;
-        long mid = 0;
+        int left = 1000000000;
+        int right = 0;
+        int mid = 0;
         
         //left를 최솟값, right를 최댓값으로 갱신
         for (int[] arr: land) {

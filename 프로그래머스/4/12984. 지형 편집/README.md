@@ -1,10 +1,10 @@
 # [level 4] 지형 편집 - 12984 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12984?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12984) 
 
 ### 성능 요약
 
-메모리: 60.9 MB, 시간: 44.64 ms
+메모리: 61.4 MB, 시간: 47.41 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 01월 04일 15:28:38
+2025년 01월 07일 19:12:43
 
 ### 문제 설명
 
